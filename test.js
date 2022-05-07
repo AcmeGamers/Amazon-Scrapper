@@ -1,26 +1,26 @@
-// const request = require("request");
-// const fs = require("fs");
-// const cheerio = require("cheerio");
+const request = require("request");
+const fs = require("fs");
+const cheerio = require("cheerio");
 
-// // Scrap things like name, price, and image from amazon, and save it to a file
-// function scrape(url, file) {
-//   request(url, function (error, response, html) {
-//     if (!error) {
-//       let $ = cheerio.load(html),
-//         name = $("#productTitle").text();
-//       let price = $(".priceBlock .price").text(),
-//         image = $(".imgTagWrapper img").attr("src"),
-//         data = {
-//           name: name,
-//           price: price,
-//           image: image,
-//         };
-//       fs.writeFile(file, JSON.stringify(data, null, 4), function (err) {
-//         console.log("File successfully written!");
-//       });
-//     }
-//   });
-// }
+// Scrap things like name, price, and image from amazon, and save it to a file
+function scrape(url, file) {
+  request(url, function (error, response, html) {
+    if (!error) {
+      let $ = cheerio.load(html),
+        name = $("#productTitle").text();
+      let price = $(".priceBlock .price").text(),
+        image = $(".imgTagWrapper img").attr("src"),
+        data = {
+          name: name,
+          price: price,
+          image: image,
+        };
+      fs.writeFile(file, JSON.stringify(data, null, 4), function (err) {
+        console.log("File successfully written!");
+      });
+    }
+  });
+}
 
 // scrape(
 //   "https://www.amazon.com/Apple-iPhone-12-Pro-Graphite/dp/B09JF5ZHQS/ref=sr_1_1?keywords=iphone&qid=1650875037&sr=8-1",
