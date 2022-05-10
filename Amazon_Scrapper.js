@@ -9,7 +9,8 @@ function WriteData(data, writeLevel = 1, file = "amazon.json") {
     });
   // writing to a file with append
   writeLevel == 2 &&
-    fs.appendFile(file, JSON.stringify(data, null, ", "), function (err) {
+    // seperete each object with a new line and a comma
+    fs.appendFile(file, JSON.stringify(data, null, 4), function (err) {
       console.log("File successfully written!");
     });
 }
@@ -65,6 +66,9 @@ function getLinks(file) {
 getLinks("links.txt");
 
 // MultiScrape(linksList);
-for (let i = 0; i < linksList.length; i++) {
-  scrape(linksList[i], 2);
+function MultiScrapper2() {
+  for (let i = 0; i < linksList.length; i++) {
+    scrape(linksList[i], 2);
+  }
 }
+MultiScrapper2();
