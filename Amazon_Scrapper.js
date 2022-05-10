@@ -46,7 +46,7 @@ async function scrape(url, writeData = 1) {
         name = $("#productTitle").text(),
         price = $(".priceBlock .price").text(),
         image = $(".imgTagWrapper img").attr("src"),
-        description = $("#feature-bullets").html(),
+        description = $("#feature-bullets:not(h1)").html(),
         obtainedData = {
           name: name,
           price: price,
