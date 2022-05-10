@@ -2,15 +2,14 @@ const request = require("request");
 const fs = require("fs");
 const cheerio = require("cheerio");
 
-function WriteData(data, writeLevel, file = "amazon.json") {
-  // normal writing
-  fs.writeFile(file, JSON.stringify(data, null, 4), function (err) {
-    console.log("File successfully written!");
-  });
-
+function WriteData(data, writeLevel = 1, file = "amazon.json") {
+  writeLevel == 1 &&
+    fs.writeFile(file, JSON.stringify(data, null, 4), function (err) {
+      console.log("File successfully written!");
+    });
   // writing to a file with append
   writeLevel == 2 &&
-    fs.appendFile(file, JSON.stringify(data, null, 4), function (err) {
+    fs.appendFile(file, JSON.stringify(data, null, ", "), function (err) {
       console.log("File successfully written!");
     });
 }
