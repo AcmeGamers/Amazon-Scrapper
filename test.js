@@ -2,10 +2,17 @@ const request = require("request");
 const fs = require("fs");
 const cheerio = require("cheerio");
 
-function WriteData(data, file = "amazon.json") {
+function WriteData(data, writeLevel, file = "amazon.json") {
+  // normal writing
   fs.writeFile(file, JSON.stringify(data, null, 4), function (err) {
     console.log("File successfully written!");
   });
+
+  // writing to a file with append
+  writeLevel == 2 &&
+    fs.appendFile(file, JSON.stringify(data, null, 4), function (err) {
+      console.log("File successfully written!");
+    });
 }
 
 async function scrape(url, writeData = 1) {
@@ -24,7 +31,8 @@ async function scrape(url, writeData = 1) {
           image: image,
           description: description,
         };
-      writeData == 1 && WriteData(obtainedData);
+      writeData != 0 && WriteData(obtainedData, writeData);
+
       return obtainedData;
     }
   });
@@ -58,3 +66,6 @@ function getLinks(file) {
 getLinks("links.txt");
 
 // MultiScrape(linksList);
+for (let i = 0; i < linksList.length; i++) {
+  scrape(linksList[i], 2);
+}
