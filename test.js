@@ -35,14 +35,17 @@ async function scrape(url, writeData = 1) {
 // );
 
 // Multiple Data Scrapping
-async function MultiScrape(links, filename = "amazon.json") {
-  const data = await Promise.all(
-    links.map(async (link) => {
-      fs.appendFileSync(filename, (await scrape(link)) + "\n", { flag: "a" });
-    })
-  );
 
-  // WriteData(data, filename);
+async function MultiScrape(links, filename = "amazon.json") {
+  let data = [];
+  await Promise.allSettled(
+    links.map((link) => {
+      data.push(scrape(link));
+    })
+  ).then(() => {
+    console.log(data);
+    WriteData(data, filename);
+  });
 }
 
 var linksList = [];
