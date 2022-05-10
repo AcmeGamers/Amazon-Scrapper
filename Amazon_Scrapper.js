@@ -2,19 +2,41 @@ const request = require("request");
 const fs = require("fs");
 const cheerio = require("cheerio");
 
+// Author: Acme Gamers
+// URL: https://github.com/AcmeGamers/Amazon-Scrapper
+
+// -----------------
+// Table of Contents
+// -----------------
+// - Writing Data
+// - Scraping Single Response
+// - Obtaining Links from a File
+// - Scraping Multi Responses
+// -----------------
+
+//
+//
+//
+
+// ------------
+// Writing Data
+// ------------
+
 function WriteData(data, writeLevel = 1, file = "amazon.json") {
   writeLevel == 1 &&
     fs.writeFile(file, JSON.stringify(data, null, 4), function (err) {
       console.log("File successfully written!");
     });
-  // writing to a file with append
+
   writeLevel == 2 &&
-    // seperete each object with a new line and a comma
     fs.appendFile(file, JSON.stringify(data, null, 4), function (err) {
-      console.log("File successfully written!");
+      console.log("Data is appended!");
     });
 }
 
+// ------------------------
+// Scraping Single Response
+// ------------------------
 async function scrape(url, writeData = 1) {
   await request(url, function (error, response, html) {
     if (!error) {
@@ -42,19 +64,9 @@ async function scrape(url, writeData = 1) {
 //   "https://www.amazon.com/Apple-iPhone-12-Pro-Graphite/dp/B09JF5ZHQS/ref=sr_1_1?keywords=iphone&qid=1650875037&sr=8-1"
 // );
 
-// Multiple Data Scrapping
-
-async function MultiScrape(links, filename = "amazon.json") {
-  let data = [];
-  await Promise.allSettled(
-    await links.map((link) => {
-      data.push(scrape(link));
-    })
-  ).then(() => {
-    console.log(data);
-    WriteData(data, filename);
-  });
-}
+// ---------------------------
+// Obtaining Links from a File
+// ---------------------------
 
 var linksList = [];
 
@@ -65,10 +77,12 @@ function getLinks(file) {
 
 getLinks("links.txt");
 
-// MultiScrape(linksList);
-function MultiScrapper2() {
+// ------------------------
+// Scraping Multi Responses
+// ------------------------
+function MultiScrapper() {
   for (let i = 0; i < linksList.length; i++) {
     scrape(linksList[i], 2);
   }
 }
-MultiScrapper2();
+MultiScrapper();
