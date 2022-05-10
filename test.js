@@ -39,7 +39,7 @@ async function scrape(url, writeData = 1) {
 async function MultiScrape(links, filename = "amazon.json") {
   let data = [];
   await Promise.allSettled(
-    links.map((link) => {
+    await links.map((link) => {
       data.push(scrape(link));
     })
   ).then(() => {
@@ -57,4 +57,4 @@ function getLinks(file) {
 
 getLinks("links.txt");
 
-MultiScrape(linksList);
+// MultiScrape(linksList);
