@@ -8,7 +8,12 @@ import JSONFixer from "./jsonFixer.js";
 // For victoriamart
 getLinks("links.txt");
 
-MultiScrapper();
+MultiScrapper(
+  ".product_title.entry-title.show-product-nav",
+  ".price span bdi",
+  "img.woocommerce-main-image",
+  "#tab-description"
+);
 
 setTimeout(() => {
   JSONFixer();
