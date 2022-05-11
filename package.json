@@ -1,6 +1,14 @@
 {
+  "name": "Amazon-Scrapper",
+  "version": "1.0.0",
+  "description": "A scrapper for Amazon",
+  "main": "run-application.js",
+  "repository": "https://github.com/AcmeGamers/Amazon-Scrapper.git",
+  "author": "AcmeGamers <52010365+AcmeGamers@users.noreply.github.com>",
+  "license": "GNU AGPLV3",
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
     "request": "^2.88.2"
-  }
+  },
+  "type": "module"
 }

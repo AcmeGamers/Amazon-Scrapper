@@ -1,6 +1,6 @@
-const request = require("request");
-const fs = require("fs");
-const cheerio = require("cheerio");
+import request from "request";
+import fs from "fs";
+import cheerio from "cheerio";
 
 // Author: Acme Gamers
 // URL: https://github.com/AcmeGamers/Amazon-Scrapper
@@ -37,16 +37,23 @@ function WriteData(data, writeLevel = 1, file = "amazon.json") {
 // ------------------------
 // Scraping Single Response
 // ------------------------
-async function scrape(url, writeData = 1) {
+async function scrape(
+  url,
+  writeData = 1,
+  productName = "#productTitle",
+  productPrice = ".priceBlock .price",
+  productImage = ".imgTagWrapper img",
+  productDescription = "#feature-bullets:not(h1)"
+) {
   await request(url, function (error, response, html) {
     if (!error) {
       let $ = cheerio.load(html, {
           normalizeWhitespace: true,
         }),
-        name = $("#productTitle").text(),
-        price = $(".priceBlock .price").text(),
-        image = $(".imgTagWrapper img").attr("src"),
-        description = $("#feature-bullets:not(h1)").html(),
+        name = $(productName).text(),
+        price = $(productPrice).text(),
+        image = $(productImage).attr("src"),
+        description = $(productDescription).html(),
         obtainedData = {
           name: name,
           price: price,
@@ -71,18 +78,30 @@ async function scrape(url, writeData = 1) {
 var linksList = [];
 
 function getLinks(file) {
+  linksList = [];
   linksList = fs.readFileSync(file, "utf8").split("\n");
   console.log(linksList);
 }
 
-getLinks("links.txt");
-
 // ------------------------
 // Scraping Multi Responses
 // ------------------------
-function MultiScrapper() {
+function MultiScrapper(
+  productName = "#productTitle",
+  productPrice = ".priceBlock .price",
+  productImage = ".imgTagWrapper img",
+  productDescription = "#feature-bullets:not(h1)"
+) {
   for (let i = 0; i < linksList.length; i++) {
-    scrape(linksList[i], 2);
+    scrape(
+      linksList[i],
+      2,
+      productName,
+      productPrice,
+      productImage,
+      productDescription
+    );
   }
 }
-MultiScrapper();
+
+export { scrape, getLinks, MultiScrapper };
